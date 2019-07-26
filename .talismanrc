@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: Cargo.lock
+  checksum: 2668fe8fccd81682a32db8828d130b73b65f8378ac1e2d3b9f28e5b61bb50d82
+  ignore_detectors: []

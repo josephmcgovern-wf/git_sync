@@ -14,13 +14,14 @@ fn main() {
         Some(b) => b,
         None => String::from("master")
     };
-    let mut output = Command::new("git").arg("pull").arg("upstream").arg(&branch).output().expect("failed to execute git pull");
+    let mut output = Command::new("git").arg("-c").arg("color.pull=always").arg("pull").arg("upstream").arg(&branch).output().expect("failed to execute git pull");
     if !output.status.success() {
-        output = Command::new("git").arg("pull").arg("origin").arg(&branch).output().expect("failed to execute git pull");
+        output = Command::new("git").arg("-c").arg("color.pull=always").arg("pull").arg("origin").arg(&branch).output().expect("failed to execute git pull");
     }
-    let mut to_print = output.stdout;
-    if !output.status.success() {
-        to_print = output.stderr;
+    let mut message = output.stdout;
+    if message.len() == 0 {
+        message = output.stderr;
     }
-    println!("{}", String::from_utf8(to_print).expect("Expected stdout to be utf8"));
+    let result = String::from_utf8_lossy(&message).into_owned();
+    print!("{}", result);
 }
